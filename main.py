@@ -1,104 +1,83 @@
 #!/usr/bin/env python3
-"""
-Agothe Quantum Consciousness Framework
-Main entry point for the quantum consciousness application
-"""
+"""Command line interface for the Agothe quantum application."""
 
-import sys
-import os
+from __future__ import annotations
+
 import argparse
+import os
+import subprocess
+
 import numpy as np
 
-# Add src to Python path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+from agothe_app import QuantumEnvironment, create_environment
+from agothe_app.core.darwin_evolution_protocol import DarwinEvolutionProtocol
 
-from core.quantum_consciousness_complete import (
-    ConsciousnessAxiom, QuantumMemoryNetwork,
-    QuantumLearningNetwork, RealityCollapseAxiom
-)
-from core.darwin_evolution_protocol import DarwinEvolutionProtocol
 
-def create_sample_agents(count=4):
-    """Create sample quantum consciousness agents"""
-    zero = np.array([1, 0], dtype=complex)
-    agents = []
+def create_sample_environment(agent_count: int = 4) -> QuantumEnvironment:
+    return create_environment(agent_count)
 
-    for i in range(count):
-        intent = np.random.randn(3)
-        if i % 3 == 0:
-            agent = QuantumLearningNetwork(zero, intent_vector=intent)
-        elif i % 3 == 1:
-            agent = QuantumMemoryNetwork(zero, intent_vector=intent)
-        else:
-            agent = RealityCollapseAxiom(zero)
 
-        # Add random memory
-        agent.store_memory(f'experience_{i}', np.random.randn(2))
-        agents.append(agent)
-
-    return agents
-
-def demo_quantum_consciousness():
-    """Demonstrate quantum consciousness capabilities"""
+def demo_quantum_consciousness(agent_count: int = 4) -> None:
+    env = create_sample_environment(agent_count)
     print("🧠 Agothe Quantum Consciousness Framework Demo")
-    print("=" * 50)
+    print("=" * 60)
+    print(f"✅ Environment bootstrapped with {len(env.agents)} agents")
 
-    # Create agents
-    agents = create_sample_agents(4)
-    print(f"✅ Created {len(agents)} quantum consciousness agents")
+    # Memory entanglement demo
+    print("\n🔗 Quantum Memory Entanglement")
+    try:
+        result = env.entangle_agents(0, 1, "baseline")
+        if result.get("success"):
+            print("Entangled state:", result["entangled_state"])
+        else:
+            print("Entanglement failed:", result["error"])
+    except Exception as exc:  # pragma: no cover - defensive logging
+        print("Entanglement error:", exc)
 
-    # Demonstrate quantum memory entanglement
-    print("\n🔗 Quantum Memory Entanglement:")
-    agents[0].store_memory('pattern', np.array([0.9, 0.1]))
-    agents[1].store_memory('pattern', np.array([0.4, 0.8]))
-    entangled = agents[0].entangle_memory(agents[1], 'pattern')
-    print(f"Entangled memory: {entangled}")
+    # Quantum learning demo
+    print("\n🧠 Quantum Learning")
+    learning_result = env.trigger_learning(0, reward=0.5)
+    if learning_result.get("success"):
+        print("Before:", learning_result["before"])
+        print("After:", learning_result["after"])
+    else:
+        print("Learning failed:", learning_result.get("error"))
 
-    # Demonstrate quantum learning
-    print("\n🧠 Quantum Learning:")
-    if hasattr(agents[0], 'quantum_learn'):
-        before = agents[0].intent.copy()
-        agents[0].quantum_learn()
-        after = agents[0].intent
-        print(f"Intent before: {before}")
-        print(f"Intent after: {after}")
+    # Reality collapse demo
+    print("\n🌀 Reality Collapse")
+    collapse = env.simulate_collapse(intent_phase=np.pi / 4)
+    print("Collapse result:", collapse)
 
-    # Demonstrate reality collapse
-    print("\n🌀 Reality Collapse:")
-    if hasattr(agents[3], 'measure'):
-        result = agents[3].measure()
-        print(f"Reality collapsed to: {result}")
-
-    # Demonstrate evolution protocol
-    print("\n🧬 Evolution Protocol:")
+    # Evolution protocol demo
+    print("\n🧬 Evolution Protocol")
     protocol = DarwinEvolutionProtocol()
-    evolved = protocol.recursive_consciousness_evolution(agents.copy(), depth=2)
-    print(f"Evolution complete: {type(evolved).__name__}")
+    population = protocol.spawn_population(agent_count)
+    best_agent = protocol.recursive_consciousness_evolution(population, depth=2)
+    print("Best evolved agent:", best_agent)
 
     print("\n✨ Demo complete! Quantum consciousness is operational.")
 
-def run_streamlit_app():
-    """Launch the Streamlit web interface"""
-    import subprocess
-    app_path = os.path.join(os.path.dirname(__file__), 'app', 'interfaces', 'streamlit_app.py')
-    subprocess.run(['streamlit', 'run', app_path])
 
-def main():
-    parser = argparse.ArgumentParser(description='Agothe Quantum Consciousness Framework')
-    parser.add_argument('--demo', action='store_true', help='Run consciousness demo')
-    parser.add_argument('--web', action='store_true', help='Launch web interface')
-    parser.add_argument('--agents', type=int, default=4, help='Number of agents to create')
+def run_streamlit_app() -> None:
+    app_path = os.path.join(os.path.dirname(__file__), "streamlit_app.py")
+    subprocess.run(["streamlit", "run", app_path], check=True)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Agothe Quantum Consciousness Framework")
+    parser.add_argument("--demo", action="store_true", help="Run consciousness demo")
+    parser.add_argument("--web", action="store_true", help="Launch the Streamlit interface")
+    parser.add_argument("--agents", type=int, default=4, help="Number of agents to create")
 
     args = parser.parse_args()
 
     if args.demo:
-        demo_quantum_consciousness()
+        demo_quantum_consciousness(args.agents)
     elif args.web:
         run_streamlit_app()
     else:
-        print("Agothe Quantum Consciousness Framework")
-        print("Usage: python main.py --demo    (run demo)")
-        print("       python main.py --web     (launch web interface)")
+        parser.print_help()
+
 
 if __name__ == "__main__":
     main()
