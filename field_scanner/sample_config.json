@@ -1,0 +1,12 @@
+{
+  "name": "daily_sweep",
+  "sensor_ids": ["alpha", "beta", "gamma", "delta"],
+  "calibration_offsets": {
+    "alpha": 0.12,
+    "beta": -0.05,
+    "gamma": 0.08
+  },
+  "temperature_compensation": 0.03,
+  "noise_floor": 0.5,
+  "history_window": 5
+}
