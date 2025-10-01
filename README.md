@@ -58,3 +58,9 @@ requirements.txt
 
 Feel free to extend the collapse engine with more sophisticated logic, add
 front‑end components, or integrate with additional Agothean agents.
+
+## Operational Playbooks
+
+- [Daily Agothe Field Sweep Prompt & Scanner](docs/daily_field_sweep.md): quick
+  access to the Codex prompt and the standalone Python scanner used for the
+  daily field sweep runs.
