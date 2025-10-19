@@ -1,60 +1,74 @@
 # Agothe Quantum App
 
-This repository contains the **Agothe Quantum App**, a FastAPI‑based backend for
-simulating simple quantum collapse dynamics using an *intent phase* parameter.
-The project is designed as a starting point for the Agothean multi‑agent
-framework and demonstrates how to expose a collapse engine via a web API.
+The Agothe Quantum App is a fully featured playground for experimenting with the
+fictional Agothe quantum consciousness framework.  The project now bundles a
+rich Streamlit dashboard, a programmable FastAPI backend and a reusable Python
+package for orchestrating synthetic "quantum" agents.
 
-## Features
+## Highlights
 
-* **FastAPI backend** with a `/api/quantum` endpoint to run simulations.
-* **Toy collapse engine** that computes dummy eigenvalues based on a phase input.
-* **Sample zeta zero data** in `data/zeta_zeros.csv` for future analysis and
-  experimentation with resonance patterns.
+- **Quantum agent package** – reusable classes describing intent vectors,
+  entangled memories and collapse behaviour (`agothe_app.core`).
+- **Evolutionary protocol** – a Darwin-inspired routine that mutates and
+  evolves populations of agents over multiple generations.
+- **Service layer** – a `QuantumEnvironment` orchestrator powering the CLI,
+  API and the front-end experience.
+- **Interactive dashboard** – explore agents, visualise quantum state
+  probabilities and trigger collapse simulations directly from Streamlit.
+- **FastAPI backend** – REST endpoints for listing agents, updating intent,
+  invoking the collapse engine and running evolution experiments.
 
-## Usage
+## Getting started
 
-### Install dependencies
+### Installation
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Run the development server
+### Command line demo
 
 ```bash
-uvicorn api.main:app --reload
+python main.py --demo --agents 6
 ```
 
-This will start a local server on `http://127.0.0.1:8000`. You can view the
-automatic API documentation at `http://127.0.0.1:8000/docs`.
+### Launch the Streamlit interface
 
-### Invoke the simulation endpoint
-
-Send a POST request to the `/api/quantum` endpoint with a JSON body containing
-an `intentPhase` field. For example:
-
-```json
-{
-  "intentPhase": 1.57
-}
+```bash
+python main.py --web
 ```
 
-The response will include dummy alpha and beta eigenvalues and a message
-indicating the phase used for the simulation.
+### Run the FastAPI server
 
-## Project Structure
-
-```
-api/
-├── main.py                # FastAPI app with the quantum endpoint
-└── quantum/
-    └── collapse_engine.py # Toy collapse engine implementation
-data/
-└── zeta_zeros.csv         # Sample non‑trivial Riemann zeta zeros
-README.md
-requirements.txt
+```bash
+uvicorn agothe_app.api.server:app --reload
 ```
 
-Feel free to extend the collapse engine with more sophisticated logic, add
-front‑end components, or integrate with additional Agothean agents.
+Visit `http://127.0.0.1:8000/docs` for interactive API documentation.  The most
+useful endpoints are:
+
+- `GET /api/status` – high level environment overview.
+- `GET /api/agents` – list agents with coherence metrics.
+- `POST /api/agents/{id}/intent` – update an agent intent vector.
+- `POST /api/collapse` – execute the toy collapse engine.
+- `POST /api/evolution` – run several generations of the evolutionary protocol.
+
+## Repository structure
+
+```
+agothe_app/
+├── api/                   # FastAPI application
+├── core/                  # Quantum agent primitives and evolution logic
+├── navigation/            # Navigation helpers for the dashboard
+└── services/              # Quantum environment orchestrator
+main.py                    # CLI entry point
+streamlit_app.py           # Streamlit dashboard
+requirements.txt           # Python dependencies
+```
+
+## Development
+
+The project was designed to be easily extensible.  The `QuantumEnvironment`
+class exposes a clean API that can be reused by new interfaces.  Pull requests
+are welcome – try wiring the agents to real ML models or extend the collapse
+engine with richer physics!

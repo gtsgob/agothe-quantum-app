@@ -22,5 +22,5 @@ def simulate_collapse(intent_phase: float = 0.0) -> Dict[str, List[float]]:
     return {
         "alphaEigenvalues": alpha_eigenvalues,
         "betaEigenvalues": beta_eigenvalues,
-        "message": f"Quantum simulation executed with intent phase {phase}"
+        "message": f"Quantum simulation executed with intent phase {phase}",
     }

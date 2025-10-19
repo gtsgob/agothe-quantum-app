@@ -34,6 +34,9 @@ setup(
         "plotly>=5.15.0",
         "networkx>=2.8.0",
         "pandas>=1.3.0",
+        "fastapi>=0.100.0",
+        "uvicorn>=0.22.0",
+        "pydantic>=1.10.0",
     ],
     extras_require={
         "dev": [
