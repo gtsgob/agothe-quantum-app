@@ -1,0 +1,18 @@
+      - name: Generate visualization
+        run: |
+          python scripts/plot_harmonic_field.py \
+            --input ./data/harmonics/harmonic_field.json \
+            --output ./visuals/harmonic_state.png \
+            --decay ./visuals/coherence_decay.png
+
+      - name: Upload harmonic field artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: harmonic_field_state
+          path: ./visuals/harmonic_state.png
+
+      - name: Upload coherence decay chart
+        uses: actions/upload-artifact@v4
+        with:
+          name: coherence_decay_chart
+          path: ./visuals/coherence_decay.png
