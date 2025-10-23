@@ -4,13 +4,3 @@
   "entropy_vector": [0.0, 0.0, 0.0, 0.0, 0.0],
   "last_signals": []
 }
-- uses: actions/checkout@v4
-  with:
-    fetch-depth: 2
-- name: Capture recent commit diff
-  run: |
-    if [ "$(git rev-list --count HEAD)" -gt 1 ]; then
-      git diff HEAD~1 HEAD > diff.log
-    else
-      echo "Initializing empty diff for first run." > diff.log
-    fi
