@@ -1,4 +1,3 @@
-# .github/workflows/ai-evolution.yml
 name: AI Evolution Cycle
 on:
   push:
@@ -11,8 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
       - name: Capture recent commit diff
-        run: git diff HEAD~1 HEAD > diff.log
+        run: |
+          if [ "$(git rev-list --count HEAD)" -gt 1 ]; then
+            git diff HEAD~1 HEAD > diff.log
+          else
+            echo "Initializing empty diff for first run." > diff.log
+          fi
 
       - name: Trigger Evolution Module
         run: |
@@ -26,5 +33,5 @@ jobs:
           git config user.name "Agothe Evolution Bot"
           git config user.email "bot@agothe.io"
           git add ./state/memory_core.json
-          git commit -m "🤖 AI Evolution Cycle: Integrated self-learning from latest commit"
+          git commit -m "🤖 AI Evolution Cycle: Integrated self-learning from latest commit" || echo "No changes to commit"
           git push
