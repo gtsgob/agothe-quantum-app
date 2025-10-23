@@ -1,0 +1,75 @@
+name: Deploy dashboard to gh-pages
+
+# Workflow: copy /dashboard/ into gh-pages branch so Pages can serve it at /dashboard/
+# Triggers: push to main and manual workflow_dispatch
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git author
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Ensure gh-pages branch and deploy dashboard
+        env:
+          REPO: ${{ github.repository }}
+          SOURCE_DIR: dashboard
+        run: |
+          # Move to workspace
+          cd $GITHUB_WORKSPACE
+
+          # Fail if source dashboard doesn't exist
+          if [ ! -d "$SOURCE_DIR" ]; then
+            echo "Directory '$SOURCE_DIR' not found in repo. Aborting."
+            exit 1
+          fi
+
+          # Fetch gh-pages if it exists
+          git fetch origin gh-pages || true
+
+          # If gh-pages exists, check it out; otherwise create orphan branch
+          if git show-ref --verify --quiet refs/remotes/origin/gh-pages; then
+            git checkout gh-pages
+          else
+            git checkout --orphan gh-pages
+            # Remove all files from index/worktree for orphan branch
+            git rm -rf . || true
+          fi
+
+          # Clean branch and recreate dashboard folder
+          git rm -rf . || true
+          mkdir -p dashboard
+
+          # Copy contents from repo's dashboard into branch under /dashboard/
+          cp -a $GITHUB_WORKSPACE/$SOURCE_DIR/. dashboard/
+
+          # Optionally copy /visuals/ or other assets if you need them at branch root.
+          # If visuals live in repo root and dashboard references ../visuals/ they will still work if you copy visuals too.
+          # Uncomment the following lines to also copy visuals into the branch root:
+          # if [ -d "$GITHUB_WORKSPACE/visuals" ]; then
+          #   cp -a $GITHUB_WORKSPACE/visuals ./
+          # fi
+
+          # Commit and push
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to deploy."
+          else
+            git commit -m "Deploy dashboard to gh-pages (from $GITHUB_REF)"
+            git push --set-upstream origin gh-pages --force
+          fi
