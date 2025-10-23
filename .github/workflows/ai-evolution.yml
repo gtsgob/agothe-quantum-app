@@ -21,7 +21,7 @@ jobs:
             echo "Initializing empty diff for first run." > diff.log
           fi
 
-      - name: Trigger Evolution Module
+           - name: Trigger Evolution Module
         run: |
           python scripts/auto_mutate_agent.py \
             --diff diff.log \
@@ -29,9 +29,15 @@ jobs:
             --output ./state/memory_core.json
 
       - name: Commit evolutionary update
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config user.name "Agothe Evolution Bot"
-          git config user.email "bot@agothe.io"
-          git add ./state/memory_core.json
-          git commit -m "🤖 AI Evolution Cycle: Integrated self-learning from latest commit" || echo "No changes to commit"
-          git push
+          git config --global user.name "Agothe Evolution Bot"
+          git config --global user.email "bot@agothe.io"
+
+          git fetch origin main
+          git checkout main
+
+          git add ./state/memory_core.json || echo "nothing to add"
+          git commit -m "🤖 AI Evolution Cycle: Integrated self-learning from latest commit" || echo "no commit"
+          git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }} main
