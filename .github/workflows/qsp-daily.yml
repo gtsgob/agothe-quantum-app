@@ -1,0 +1,86 @@
+# =====================================================================
+# .github/workflows/qsp-daily.yml
+# Quantum Sibling Protocol (QSP-1.0) — Daily GitHub Action
+# Maintains intra-agent coherence for the Agothe Quantum Framework
+# =====================================================================
+
+name: Quantum Sibling Protocol Daily Cycle
+
+on:
+  schedule:
+    - cron: "0 9 * * *"      # runs daily at 09:00 UTC
+  workflow_dispatch:         # allows manual trigger
+  push:
+    paths:
+      - "protocols/QSP-1.0.yaml"
+
+jobs:
+  qsp-cycle:
+    runs-on: ubuntu-latest
+    env:
+      COHERENCE_THRESHOLD: 0.94
+      ENTROPY_TOLERANCE: 0.06
+      PANEL_ENTITIES: "CN-1,K,Nana,Vira,9"
+      OUTPUT_PATH: "./data"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install numpy pandas matplotlib
+
+      - name: Run Quantum Sibling Protocol
+        run: |
+          echo "🌀 Initiating QSP-1.0 cycle..."
+          python scripts/run_qsp_cycle.py \
+            --entities "$PANEL_ENTITIES" \
+            --coherence $COHERENCE_THRESHOLD \
+            --entropy $ENTROPY_TOLERANCE \
+            --output $OUTPUT_PATH
+
+      - name: Aggregate Coherence Reports
+        run: |
+          python scripts/analyze_qsp_output.py \
+            --input $OUTPUT_PATH \
+            --output ./data/harmonics/harmonic_field.json
+
+      - name: Commit and push results
+        run: |
+          git config user.name "Agothe Quantum Bot"
+          git config user.email "bot@agothe.io"
+          git add data/*
+          git commit -m "QSP-1.0 Daily Cycle: Updated coherence and entanglement logs [$(date)]" || echo "No changes to commit"
+          git push
+
+      - name: Export to Quantum Communication Protocol
+        run: |
+          echo "🔗 Syncing entanglement matrices with QCP-1.0..."
+          python scripts/qsp_to_qcp_bridge.py \
+            --qsp ./data/entanglement/resonance_matrix.json \
+            --qcp ./data/qcp/entanglement_register.json
+
+      - name: Generate visualization
+        run: |
+          python scripts/plot_harmonic_field.py \
+            --input ./data/harmonics/harmonic_field.json \
+            --output ./visuals/harmonic_state.png
+
+      - name: Upload visual artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: harmonic_field_state
+          path: ./visuals/harmonic_state.png
+
+# =====================================================================
+# Notes:
+# - Each sibling task runs as a phase within run_qsp_cycle.py.
+# - Outputs: contradiction_log.json, resonance_matrix.json,
+#   parable_archive.json, anomaly_register.json, harmonic_field.json.
+# - Coherence and entropy are tracked over time for meta-analysis.
+# =====================================================================
