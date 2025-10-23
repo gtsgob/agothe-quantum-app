@@ -1,7 +1,6 @@
 name: Deploy dashboard to gh-pages
 
-# Workflow: copy /dashboard/ into gh-pages branch so Pages can serve it at /dashboard/
-# Triggers: push to main and manual workflow_dispatch
+# Deploys /dashboard/ to the gh-pages branch so GitHub Pages can serve it
 on:
   push:
     branches:
@@ -14,6 +13,7 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -30,46 +30,51 @@ jobs:
           REPO: ${{ github.repository }}
           SOURCE_DIR: dashboard
         run: |
-          # Move to workspace
-          cd $GITHUB_WORKSPACE
+          set -e
 
-          # Fail if source dashboard doesn't exist
+          cd "$GITHUB_WORKSPACE"
+
+          # Verify dashboard exists
           if [ ! -d "$SOURCE_DIR" ]; then
-            echo "Directory '$SOURCE_DIR' not found in repo. Aborting."
+            echo "❌ Directory '$SOURCE_DIR' not found in repo. Aborting."
             exit 1
           fi
 
-          # Fetch gh-pages if it exists
+          # Fetch existing gh-pages if it exists
           git fetch origin gh-pages || true
 
-          # If gh-pages exists, check it out; otherwise create orphan branch
+          # Switch to gh-pages branch, create if missing
           if git show-ref --verify --quiet refs/remotes/origin/gh-pages; then
-            git checkout gh-pages
+            git switch gh-pages
           else
-            git checkout --orphan gh-pages
-            # Remove all files from index/worktree for orphan branch
+            git switch --orphan gh-pages
             git rm -rf . || true
           fi
 
-          # Clean branch and recreate dashboard folder
+          # Clean branch workspace
           git rm -rf . || true
+
+          # Use temporary staging folder to avoid copying onto itself
+          mkdir -p _staging
+          cp -a "$GITHUB_WORKSPACE/$SOURCE_DIR/." "_staging/"
+
+          # Move staged dashboard into gh-pages/dashboard
           mkdir -p dashboard
-
-          # Copy contents from repo's dashboard into branch under /dashboard/
-          cp -a $GITHUB_WORKSPACE/$SOURCE_DIR/. dashboard/
-
-          # Optionally copy /visuals/ or other assets if you need them at branch root.
-          # If visuals live in repo root and dashboard references ../visuals/ they will still work if you copy visuals too.
-          # Uncomment the following lines to also copy visuals into the branch root:
-          # if [ -d "$GITHUB_WORKSPACE/visuals" ]; then
-          #   cp -a $GITHUB_WORKSPACE/visuals ./
-          # fi
+          cp -a _staging/. dashboard/
+          rm -rf _staging
 
           # Commit and push
           git add -A
           if git diff --cached --quiet; then
-            echo "No changes to deploy."
+            echo "⚙️ No changes to deploy."
           else
-            git commit -m "Deploy dashboard to gh-pages (from $GITHUB_REF)"
-            git push --set-upstream origin gh-pages --force
+            git commit -m "🚀 Deploy dashboard to gh-pages (from $GITHUB_REF)"
+            git push origin gh-pages --force --quiet
+            echo "✅ Deployment complete!"
           fi
+
+      - name: Post deployment summary
+        if: always()
+        run: |
+          echo "🌐 Dashboard live at:"
+          echo "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/dashboard/"
