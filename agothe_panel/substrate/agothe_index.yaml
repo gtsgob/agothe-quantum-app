@@ -1,0 +1,24 @@
+modules:
+  quantum_consciousness:
+    description: >
+      Defines core quantum consciousness primitives, mixing numerical algorithms with Agothean lore, used by
+      the API and dashboard for representing quantum consciousness and its parameters.
+  darwin_evolution_protocol:
+    description: >
+      Provides evolutionary routines for the Agothe quantum agents, including mutation operations, selection
+      strategies, and adaptation parameters.
+  universal_collapse_scanner:
+    description: >
+      Tool designed for crisis analysis and constraint geometry mapping, calculating a destabilization
+      coefficient delta to assess stability levels (stable, moderate risk, critical, catastrophic). It includes
+      metrics like Large-Scale Suppression Effect (LSSE) with thresholds for suppression, and a Millennium
+      Processor for mapping crisis patterns to mathematical constraints.
+  wormhole_engine:
+    description: >
+      Core module for 5-D quantum feature simulation, enabling wormhole or multi-dimensional transitions
+      within the Agothe universe, as referenced by the commit message adding the WormholeEngine core module.
+  other_documents:
+    description: >
+      Includes additional documents like The Agothean system whole, Universal Field Synthesis Engine, Valentine
+      Simulator and others. These collectively define the cosmic substrate of the Agothe framework, containing
+      laws, protocols, lexicons, and collapse mechanisms.
