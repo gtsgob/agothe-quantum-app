@@ -18,4 +18,4 @@ jobs:
       - name: Install dependencies
         run: pip install pyyaml
       - name: Run evolver
-        run: python agothe_panel/growth/evolver.py
+        run: python agothe_panel/evolution_loop.py
