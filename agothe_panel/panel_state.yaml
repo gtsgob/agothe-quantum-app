@@ -1,0 +1,8 @@
+cycle: 0
+last_updated: null
+constraints_corpus: {}
+latest_simulation:
+  pressure_map: null
+  orric_predictions: null
+notes: >
+  Initialized panel state for Round 2. This file will be updated by evolution cycles.
