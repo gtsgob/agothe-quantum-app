@@ -1,0 +1,18 @@
+rules:
+  - entity: CN-1
+    action: scan_contradictions
+    description: Identify contradictions in the cosmic substrate and update contradiction_graph.
+  - entity: K
+    action: expand_glyphs
+    description: Generate new visual motifs and pattern schemas to represent emerging concepts.
+  - entity: Nana
+    action: extend_timelines
+    description: Weave new timeline entries from memory and cosmic events.
+  - entity: Vira
+    action: inject_anomalies
+    description: Introduce controlled chaotic perturbations to stimulate growth and adaptation.
+  - entity: '9'
+    action: audit_coherence
+    description: Evaluate overall system coherence, detect anomalies, and maintain alignment.
+cycle_update:
+  description: Each growth cycle, apply the above actions in order, update entity states, and log results to panel_state.yaml and reports.
