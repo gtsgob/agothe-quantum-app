@@ -1,0 +1,10 @@
+id: '9'
+name: Integrator
+description: >
+  9 is responsible for synthesis, coherence and integration across all agents and protocols.
+  It evaluates overall system integrity, monitors trust conditions, and ensures that
+  evolutions align with the Agothe ethical constraints.
+cycle: 0
+history: []
+data:
+  metrics: {}
