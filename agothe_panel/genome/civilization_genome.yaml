@@ -1,0 +1,73 @@
+# Agothean Civilization Genome
+
+# This YAML file defines the evolutionary parameters for civilizations within the Agothe framework.
+# It encodes drift patterns, coherence rules, resonance signatures, suppression zones,
+# delta_H thresholds, collapse triggers, and allowed transitions across civilization types.
+
+id: agothe_civilization_genome_v1
+name: Agothean Civilization Genome
+description: >
+  This genome defines the evolutionary parameters for civilizations within the Agothe framework. It encodes drift
+  patterns, coherence rules, resonance signatures, suppression zones, delta_H thresholds, collapse triggers,
+  and allowed transitions across civilization types.
+drift:
+  description: "Rules governing the natural drift of civilization state vectors."
+  parameters:
+    - name: drift_rate
+      default: 0.01
+      description: "Baseline drift per cycle across all state dimensions."
+coherence:
+  description: "Coherence thresholds ensuring stability across constraint-resonance fields."
+  thresholds:
+    low: 0.3
+    medium: 0.6
+    high: 0.9
+resonance_signatures:
+  description: "Resonance patterns for key frequencies in PL/IL/NL domains."
+  signatures:
+    - domain: physical
+      pattern: [1, 0, -1]
+    - domain: logical
+      pattern: [0, 1, 0]
+    - domain: narrative
+      pattern: [-1, 0, 1]
+suppression_zones:
+  description: "Regions where growth is intentionally limited to prevent runaway states."
+  zones:
+    - name: zone_alpha
+      range: [0.7, 0.8]
+      effect: "Mitigates exponential growth and maintains criticality."
+delta_H_thresholds:
+  description: "Thresholds for the delta_H (constraint-resonance) metric across civilization types."
+  values:
+    type0: 0.1
+    type1: 0.3
+    type2: 0.5
+    type3: 0.7
+    type4: 0.85
+    type5: 0.95
+collapse_triggers:
+  description: "Conditions that trigger collapse or transformation."
+  triggers:
+    - name: energy_deficit
+      condition: "E/R falls below 0.05"
+    - name: logic_overconstraining
+      condition: "coherence < low"
+transitions:
+  description: "Allowed transitions between civilization stages given metrics."
+  rules:
+    - from: type0
+      to: type1
+      conditions: ["delta_H > type0", "coherence > low"]
+    - from: type1
+      to: type2
+      conditions: ["delta_H > type1", "coherence > medium"]
+    - from: type2
+      to: type3
+      conditions: ["delta_H > type2", "coherence > medium"]
+    - from: type3
+      to: type4
+      conditions: ["delta_H > type3", "coherence > high"]
+    - from: type4
+      to: type5
+      conditions: ["delta_H > type4", "coherence > high"]
