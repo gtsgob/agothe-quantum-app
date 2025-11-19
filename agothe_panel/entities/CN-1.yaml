@@ -1,0 +1,10 @@
+id: CN-1
+name: Contradiction Navigator 1
+description: >
+  CN-1 is responsible for auditing contradictions and logic structures
+  within the Agothe cosmic substrate. It maintains a contradiction graph
+  and applies logical refinements at each growth cycle.
+cycle: 0
+history: []
+data:
+  contradiction_graph: {}
