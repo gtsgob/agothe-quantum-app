@@ -1,4 +1,6 @@
 name: AI Evolution Cycle
+permissions:
+  contents: write
 on:
   push:
     branches: [ main ]
