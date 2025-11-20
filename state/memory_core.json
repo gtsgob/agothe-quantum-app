@@ -1,12 +1,12 @@
 {
-  "learning_cycles": 1,
-  "mutation_factor": 0.0711,
+  "learning_cycles": 2,
+  "mutation_factor": 0.0544,
   "entropy_vector": [
-    0.885,
-    0.756,
-    0.522,
-    0.222,
-    0.649
+    0.225,
+    0.465,
+    0.3,
+    0.735,
+    0.445
   ],
   "last_signals": [
     " from entity_reflections_engine import generate_all_reflections",
