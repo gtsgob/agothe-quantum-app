@@ -40,6 +40,10 @@ jobs:
             exit 1
           fi
 
+          # Copy dashboard to temp location BEFORE switching branches
+          TEMP_DASHBOARD=$(mktemp -d)
+          cp -a "$SOURCE_DIR/." "$TEMP_DASHBOARD/"
+
           # Fetch existing gh-pages if it exists
           git fetch origin gh-pages || true
 
@@ -54,14 +58,10 @@ jobs:
           # Clean branch workspace
           git rm -rf . || true
 
-          # Use temporary staging folder to avoid copying onto itself
-          mkdir -p _staging
-          cp -a "$GITHUB_WORKSPACE/$SOURCE_DIR/." "_staging/"
-
-          # Move staged dashboard into gh-pages/dashboard
+          # Copy dashboard from temp location
           mkdir -p dashboard
-          cp -a _staging/. dashboard/
-          rm -rf _staging
+          cp -a "$TEMP_DASHBOARD/." dashboard/
+          rm -rf "$TEMP_DASHBOARD"
 
           # Commit and push
           git add -A
