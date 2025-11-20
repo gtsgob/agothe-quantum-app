@@ -6,7 +6,7 @@ import yaml
 # Import modules from Agothe Panel
 from corpus.corpus_ingestor import build_constraint_corpus
 from knowledge_graph.constraint_graph import build_graph_from_corpus
-from orric_predictor import compute_orric_scores
+from orric_predictor import predict_orric_metrics, save_prediction
 from civilization_sim import run_simulation, save_simulation
 from entity_reflections_engine import generate_all_reflections
 
@@ -57,7 +57,12 @@ def main():
     # Step 3: predict Orric tensions
     orric_output_path = os.path.join(root_dir, "orric_map_auto", f"cycle_{cycle}.json")
     os.makedirs(os.path.dirname(orric_output_path), exist_ok=True)
-    compute_orric_scores(corpus_data, orric_output_path)
+    constraints = []
+    for entries in corpus_data.values():
+        constraints.extend(entry.get("content", "") for entry in entries)
+
+    orric_prediction = predict_orric_metrics(constraints)
+    save_prediction(orric_prediction, orric_output_path)
 
     # Step 4: run civilization simulation
     sim_results = run_simulation(num_cycles=1)
