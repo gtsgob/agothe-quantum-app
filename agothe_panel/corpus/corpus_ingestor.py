@@ -85,28 +85,14 @@ def save_corpus(corpus: Dict[str, Any], output_path: str) -> None:
         print(f"Failed to save corpus: {e}")
 
 
-def build_constraint_corpus(corpus_dir: Optional[str] = None, output_path: Optional[str] = None) -> Dict[str, Any]:
+def build_constraint_corpus() -> Dict[str, Any]:
     """
-    Convenience wrapper used by the Agothe Panel:
-    - corpus_dir defaults to <project_root>/corpus
-    - output_path defaults to <project_root>/state/corpus.json
-    Ingests the corpus and returns the parsed corpus dictionary. It will try to save
-    the corpus to output_path but will not raise on save errors.
+    Build the constraint corpus from the default corpus directory.
+    This is a convenience function that wraps ingest_corpus with default paths.
     """
-    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    if corpus_dir is None:
-        corpus_dir = os.environ.get("AGOTHE_CORPUS_DIR", os.path.join(project_root, "corpus"))
-    if output_path is None:
-        output_path = os.environ.get("AGOTHE_CORPUS_OUTPUT", os.path.join(project_root, "state", "corpus.json"))
-
-    corpus = ingest_corpus(corpus_dir)
-    try:
-        save_corpus(corpus, output_path)
-    except Exception:
-        # don't fail the whole pipeline just because saving failed; evolution_loop
-        # already writes the JSON itself after receiving the returned data.
-        pass
-    return corpus
+    corpus_dir = os.environ.get("AGOTHE_CORPUS_DIR",
+                                os.path.join(os.path.dirname(__file__), "..", "corpus"))
+    return ingest_corpus(corpus_dir)
 
 
 if __name__ == "__main__":
