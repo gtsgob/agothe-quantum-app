@@ -85,6 +85,16 @@ def save_corpus(corpus: Dict[str, Any], output_path: str) -> None:
         print(f"Failed to save corpus: {e}")
 
 
+def build_constraint_corpus() -> Dict[str, Any]:
+    """
+    Build the constraint corpus from the default corpus directory.
+    This is a convenience function that wraps ingest_corpus with default paths.
+    """
+    corpus_dir = os.environ.get("AGOTHE_CORPUS_DIR",
+                                os.path.join(os.path.dirname(__file__), "..", "corpus"))
+    return ingest_corpus(corpus_dir)
+
+
 if __name__ == "__main__":
     """
     Command-line entry point. Use environment variables to set directories.
