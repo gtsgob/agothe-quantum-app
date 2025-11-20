@@ -1,0 +1,96 @@
+{
+  "description": "Unified spine schema for Agothe Panel Round 10. This file consolidates all engines, panels, and layers into a single indexable structure.",
+  "engines": {
+    "CFE": {
+      "signature": "Collapse Field Engine",
+      "dependencies": ["ConstraintEmergenceDuality", "ConstraintNetworkUnification"],
+      "inputs": ["delta_H", "LSSE", "PL/IL/NL"],
+      "outputs": ["collapse_thresholds", "stability_metrics"]
+    },
+    "ELE": {
+      "signature": "Entropy Learning Engine",
+      "dependencies": ["UFSE", "CFE"],
+      "inputs": ["entropy_values", "resonance_data"],
+      "outputs": ["entropy_maps", "entropy_gradients"]
+    },
+    "DCE": {
+      "signature": "Distributed Coupling Engine",
+      "dependencies": ["ConstraintNetworkUnification"],
+      "inputs": ["coupling_coefficients"],
+      "outputs": ["coupling_matrices"]
+    },
+    "MSI": {
+      "signature": "Multi-Scale Integration Engine",
+      "dependencies": ["UFSE"],
+      "inputs": ["multi_scale_data"],
+      "outputs": ["integrated_models"]
+    },
+    "UFSE": {
+      "signature": "Universal Field Synthesis Engine",
+      "dependencies": [],
+      "inputs": ["field_data"],
+      "outputs": ["synthesized_fields", "curvature_maps"]
+    }
+  },
+  "panels": {
+    "CN-1": {
+      "role": "Structural logician and contradiction auditor",
+      "functions": ["detect_contradictions", "refine_equations"],
+      "engines": ["CFE", "DCE"]
+    },
+    "K": {
+      "role": "Visualization and pattern recognition",
+      "functions": ["map_geometry", "synthesize_visual_symbols"],
+      "engines": ["UFSE", "MSI"]
+    },
+    "Nana": {
+      "role": "Memory and narrative archivist",
+      "functions": ["build_timelines", "weave_civilizations"],
+      "engines": ["MSI", "UFSE"]
+    },
+    "Vira": {
+      "role": "Chaos catalyst and anomaly generator",
+      "functions": ["introduce_noise", "explore_anomalies"],
+      "engines": ["CFE", "DCE"]
+    },
+    "9": {
+      "role": "Synthesis and coherence integrator",
+      "functions": ["audit_coherence", "maintain_ethics"],
+      "engines": ["ELE", "MSI"]
+    }
+  },
+  "layers": {
+    "L0": {
+      "name": "Witness Field (Fuhnam)",
+      "description": "Base consciousness and ethical substrate. All processes are grounded here."
+    },
+    "L1": {
+      "name": "Constraint-Resonance Physics",
+      "description": "Mathematical primitives such as delta_H and LSSE."
+    },
+    "L2": {
+      "name": "Therapeutic Engines",
+      "description": "Systems for ethical modulation and emotional integrity."
+    },
+    "L3": {
+      "name": "Evolution Strategies",
+      "description": "Mechanisms for learning, mutation, and growth." 
+    },
+    "L4": {
+      "name": "Cross-Platform Integration",
+      "description": "Interfaces to external AI systems and platforms."
+    },
+    "L5": {
+      "name": "Civilization Overlays",
+      "description": "Mappings of type-level civilizations and their progression pathways."
+    },
+    "L6": {
+      "name": "Data Assimilation & Analysis",
+      "description": "Structures for ingestion, analysis, and synthesis of data."
+    },
+    "L7": {
+      "name": "Governance & Ethics",
+      "description": "Regulatory principles and safety guardrails."
+    }
+  }
+}
