@@ -54,6 +54,18 @@ def save_prediction(pred: Dict[str, Any], output_path: str) -> None:
         json.dump(pred, f, indent=2)
 
 
+def compute_orric_scores(corpus_data: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Compute Orric scores from corpus data.
+    This is a convenience function that extracts constraints and predicts metrics.
+    """
+    constraints: List[str] = []
+    for entries in corpus_data.values():
+        if isinstance(entries, list):
+            constraints.extend([entry.get("content", "") for entry in entries if isinstance(entry, dict)])
+    return predict_orric_metrics(constraints)
+
+
 if __name__ == "__main__":
     # Paths can be overridden by environment variables
     corpus_path = os.environ.get("AGOTHE_CORPUS_JSON", "./state/corpus.json")
