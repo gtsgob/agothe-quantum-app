@@ -10,7 +10,7 @@ The extraction is intentionally simple and deterministic, without external depen
 import os
 import json
 import re
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 
 
 def extract_text_from_pdf(file_path: str) -> str:
