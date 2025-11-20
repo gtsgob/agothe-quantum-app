@@ -10,7 +10,7 @@ The extraction is intentionally simple and deterministic, without external depen
 import os
 import json
 import re
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 
 
 def extract_text_from_pdf(file_path: str) -> str:
@@ -83,6 +83,16 @@ def save_corpus(corpus: Dict[str, Any], output_path: str) -> None:
             json.dump(corpus, f, indent=2)
     except Exception as e:
         print(f"Failed to save corpus: {e}")
+
+
+def build_constraint_corpus() -> Dict[str, Any]:
+    """
+    Build the constraint corpus from the default corpus directory.
+    This is a convenience function that wraps ingest_corpus with default paths.
+    """
+    corpus_dir = os.environ.get("AGOTHE_CORPUS_DIR",
+                                os.path.join(os.path.dirname(__file__), "..", "corpus"))
+    return ingest_corpus(corpus_dir)
 
 
 if __name__ == "__main__":
