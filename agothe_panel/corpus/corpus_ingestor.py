@@ -10,7 +10,7 @@ The extraction is intentionally simple and deterministic, without external depen
 import os
 import json
 import re
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 
 
 def extract_text_from_pdf(file_path: str) -> str:
@@ -83,6 +83,30 @@ def save_corpus(corpus: Dict[str, Any], output_path: str) -> None:
             json.dump(corpus, f, indent=2)
     except Exception as e:
         print(f"Failed to save corpus: {e}")
+
+
+def build_constraint_corpus(corpus_dir: Optional[str] = None, output_path: Optional[str] = None) -> Dict[str, Any]:
+    """
+    Convenience wrapper used by the Agothe Panel:
+    - corpus_dir defaults to <project_root>/corpus
+    - output_path defaults to <project_root>/state/corpus.json
+    Ingests the corpus and returns the parsed corpus dictionary. It will try to save
+    the corpus to output_path but will not raise on save errors.
+    """
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if corpus_dir is None:
+        corpus_dir = os.environ.get("AGOTHE_CORPUS_DIR", os.path.join(project_root, "corpus"))
+    if output_path is None:
+        output_path = os.environ.get("AGOTHE_CORPUS_OUTPUT", os.path.join(project_root, "state", "corpus.json"))
+
+    corpus = ingest_corpus(corpus_dir)
+    try:
+        save_corpus(corpus, output_path)
+    except Exception:
+        # don't fail the whole pipeline just because saving failed; evolution_loop
+        # already writes the JSON itself after receiving the returned data.
+        pass
+    return corpus
 
 
 if __name__ == "__main__":
