@@ -1,4 +1,6 @@
 name: AI Evolution Cycle
+permissions:
+  contents: write
 on:
   push:
     branches: [ main ]
@@ -21,7 +23,7 @@ jobs:
             echo "Initializing empty diff for first run." > diff.log
           fi
 
-           - name: Trigger Evolution Module
+      - name: Trigger Evolution Module
         run: |
           python scripts/auto_mutate_agent.py \
             --diff diff.log \
