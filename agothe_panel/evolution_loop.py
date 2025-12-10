@@ -3,12 +3,12 @@ import json
 import datetime
 import yaml
 
-# Import modules from Agothe Panel
-from corpus.corpus_ingestor import build_constraint_corpus
-from knowledge_graph.constraint_graph import build_graph_from_corpus
-from orric_predictor import predict_orric_metrics, save_prediction
-from civilization_sim import run_simulation, save_simulation
-from entity_reflections_engine import generate_all_reflections
+# Import modules from Agothe Panel using relative imports
+from .corpus.corpus_ingestor import build_constraint_corpus
+from .knowledge_graph.constraint_graph import build_graph_from_corpus
+from .orric_predictor import predict_orric_metrics, save_prediction
+from .civilization_sim import run_simulation, save_simulation
+from .entity_reflections_engine import generate_all_reflections
 
 def load_panel_state(state_path):
     """Load panel state from YAML file if it exists."""
@@ -52,7 +52,7 @@ def main():
     graph = build_graph_from_corpus(corpus_data)
     graph_path = os.path.join(root_dir, "knowledge_graph", "constraint_graph.json")
     os.makedirs(os.path.dirname(graph_path), exist_ok=True)
-    graph.save_to_file(graph_path)
+    graph.save(graph_path)
 
     # Step 3: predict Orric tensions
     orric_output_path = os.path.join(root_dir, "orric_map_auto", f"cycle_{cycle}.json")

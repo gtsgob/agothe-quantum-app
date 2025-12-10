@@ -69,6 +69,46 @@ def process_all_entities(entities_dir: str, cycle: int) -> None:
         save_reflection(reflection, entity_id, cycle)
 
 
+def generate_all_reflections(entities_dir: str, reflections_dir: str, cycle: int) -> None:
+    """
+    Generate and save reflections for all entities, updating their state files with cycle increments.
+
+    Args:
+        entities_dir: Directory containing entity YAML files.
+        reflections_dir: Directory where reflections should be saved.
+        cycle: Current evolution cycle number.
+    """
+    for filename in os.listdir(entities_dir):
+        if not filename.endswith(".yaml"):
+            continue
+        entity_id = os.path.splitext(filename)[0]
+        state_path = os.path.join(entities_dir, filename)
+
+        try:
+            state = load_entity_state(state_path)
+        except Exception:
+            state = {'id': entity_id, 'name': entity_id, 'cycle': 0, 'history': [], 'data': {}}
+
+        # Generate reflection
+        reflection = generate_reflection(state, cycle)
+
+        # Save reflection to reflections directory
+        save_reflection(reflection, entity_id, cycle, base_dir=reflections_dir)
+
+        # Update entity state with new cycle count and history
+        state['cycle'] = cycle
+        if 'history' not in state:
+            state['history'] = []
+        state['history'].append({
+            'cycle': cycle,
+            'reflection_generated': True
+        })
+
+        # Save updated entity state
+        with open(state_path, 'w') as f:
+            yaml.safe_dump(state, f, default_flow_style=False)
+
+
 if __name__ == "__main__":
     cycle_str = os.environ.get("AGOTHE_CYCLE_NUMBER", "0")
     try:

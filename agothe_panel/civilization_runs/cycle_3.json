@@ -1,0 +1,53 @@
+{
+  "states": [
+    {
+      "delta_H": 0.1,
+      "coherence": 0.5,
+      "energy": 1.0,
+      "resources": 1.0,
+      "PL_resonance": 0.3,
+      "IL_resonance": 0.3,
+      "NL_resonance": 0.4
+    },
+    {
+      "delta_H": 0.1,
+      "coherence": 0.5,
+      "energy": 1.0,
+      "resources": 1.0,
+      "PL_resonance": 0.3,
+      "IL_resonance": 0.38296893947894206,
+      "NL_resonance": 0.4
+    }
+  ],
+  "pressure_maps": [
+    {
+      "delta_H": 0.0,
+      "coherence": 0.0,
+      "energy": 0.0,
+      "resources": 0.0,
+      "PL_resonance": 0.0,
+      "IL_resonance": 0.0,
+      "NL_resonance": 0.0
+    },
+    {
+      "delta_H": 0.0,
+      "coherence": 0.0,
+      "energy": 0.0,
+      "resources": 0.0,
+      "PL_resonance": 0.0,
+      "IL_resonance": 0.0,
+      "NL_resonance": 0.0
+    }
+  ],
+  "orric_predictions": [],
+  "cycles_completed": 1,
+  "final_state": {
+    "delta_H": 0.1,
+    "coherence": 0.5,
+    "energy": 1.0,
+    "resources": 1.0,
+    "PL_resonance": 0.3,
+    "IL_resonance": 0.38296893947894206,
+    "NL_resonance": 0.4
+  }
+}

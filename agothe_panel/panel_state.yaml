@@ -1,8 +1,11 @@
-cycle: 0
-last_updated: null
 constraints_corpus: {}
-latest_simulation:
-  pressure_map: null
-  orric_predictions: null
-notes: >
-  Initialized panel state for Round 2. This file will be updated by evolution cycles.
+cycle: 3
+last_updated: '2025-12-10T04:35:40.786369Z'
+latest_corpus: state/corpus.json
+latest_graph: knowledge_graph/constraint_graph.json
+latest_orric: orric_map_auto/cycle_3.json
+latest_simulation: civilization_runs/cycle_3.json
+notes: 'Initialized panel state for Round 2. This file will be updated by evolution
+  cycles.
+
+  '
