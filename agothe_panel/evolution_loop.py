@@ -3,12 +3,12 @@ import json
 import datetime
 import yaml
 
-# Import modules from Agothe Panel
-from corpus.corpus_ingestor import build_constraint_corpus
-from knowledge_graph.constraint_graph import build_graph_from_corpus
-from orric_predictor import predict_orric_metrics, save_prediction
-from civilization_sim import run_simulation, save_simulation
-from entity_reflections_engine import generate_all_reflections
+# Import modules from Agothe Panel using relative imports
+from .corpus.corpus_ingestor import build_constraint_corpus
+from .knowledge_graph.constraint_graph import build_graph_from_corpus
+from .orric_predictor import predict_orric_metrics, save_prediction
+from .civilization_sim import run_simulation, save_simulation
+from .entity_reflections_engine import generate_all_reflections
 
 def load_panel_state(state_path):
     """Load panel state from YAML file if it exists."""

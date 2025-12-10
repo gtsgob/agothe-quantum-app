@@ -1,4 +1,4 @@
-cycle: 2
+cycle: 3
 data:
   memories: {}
 description: 'Nana is the custodian of memory and story. It weaves narrative and compassion
@@ -15,6 +15,11 @@ history:
 - cycle: 2
   reflection_generated: true
 - cycle: 2
+  enhanced: true
+  reflection_generated: true
+- cycle: 3
+  reflection_generated: true
+- cycle: 3
   enhanced: true
   reflection_generated: true
 id: Nana
