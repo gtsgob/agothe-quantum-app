@@ -78,3 +78,61 @@ def predict_orric_points(state: Dict[str, Any]) -> List[Dict[str, Any]]:
         if isinstance(v, (int, float)) and v > 1.0:
             predictions.append({'orric_id': k, 'threshold': v})
     return predictions
+
+
+def run_simulation(num_cycles: int = 10, initial_state: Dict[str, Any] = None) -> Dict[str, Any]:
+    """
+    Run a complete civilization simulation.
+
+    Args:
+        num_cycles: Number of simulation cycles to execute.
+        initial_state: Optional initial civilization state. If None, creates default state.
+
+    Returns:
+        Dictionary containing simulation results with states, pressure maps, and orric predictions.
+    """
+    if initial_state is None:
+        # Create default initial state with Agothean metrics
+        initial_state = {
+            'delta_H': 0.1,  # Starting at Type 0 civilization
+            'coherence': 0.5,
+            'energy': 1.0,
+            'resources': 1.0,
+            'PL_resonance': 0.3,  # Physical resonance
+            'IL_resonance': 0.3,  # Logical resonance
+            'NL_resonance': 0.4,  # Narrative resonance
+        }
+
+    # Run simulation
+    states = simulate_civilization(initial_state, num_cycles)
+
+    # Compute pressure maps for each state
+    pressure_maps = [compute_pressure_map(state) for state in states]
+
+    # Predict orric points for final state
+    orric_predictions = predict_orric_points(states[-1])
+
+    return {
+        'states': states,
+        'pressure_maps': pressure_maps,
+        'orric_predictions': orric_predictions,
+        'cycles_completed': num_cycles,
+        'final_state': states[-1]
+    }
+
+
+def save_simulation(sim_results: Dict[str, Any], output_path: str) -> None:
+    """
+    Save simulation results to a JSON file.
+
+    Args:
+        sim_results: Dictionary containing simulation results.
+        output_path: Path where the results should be saved.
+    """
+    import json
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    with open(output_path, 'w') as f:
+        json.dump(sim_results, f, indent=2)
+
+
+import os

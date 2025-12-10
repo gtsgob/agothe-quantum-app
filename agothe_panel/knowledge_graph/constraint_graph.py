@@ -58,15 +58,32 @@ class ConstraintGraph:
             json.dump(self.serialize(), f, indent=2)
 
 
-def build_graph_from_corpus(corpus_path: str) -> ConstraintGraph:
+def build_graph_from_corpus(corpus_data) -> ConstraintGraph:
     """
-    Build a ConstraintGraph from a corpus.json file produced by corpus_ingestor.
+    Build a ConstraintGraph from corpus data.
+
+    Args:
+        corpus_data: Either a file path (str) to a corpus.json file, or a dict containing corpus data.
+
+    Returns:
+        ConstraintGraph built from the corpus data.
     """
     graph = ConstraintGraph()
-    if not os.path.isfile(corpus_path):
+
+    # Handle both file paths and data dictionaries
+    if isinstance(corpus_data, str):
+        # corpus_data is a file path
+        if not os.path.isfile(corpus_data):
+            return graph
+        with open(corpus_data) as f:
+            data = json.load(f)
+    elif isinstance(corpus_data, dict):
+        # corpus_data is already a dictionary
+        data = corpus_data
+    else:
+        # Invalid input
         return graph
-    with open(corpus_path) as f:
-        data = json.load(f)
+
     # data expected to be { filename: [entries...] }
     for entries in data.values():
         graph.update_from_constraints(entries)

@@ -52,7 +52,7 @@ def main():
     graph = build_graph_from_corpus(corpus_data)
     graph_path = os.path.join(root_dir, "knowledge_graph", "constraint_graph.json")
     os.makedirs(os.path.dirname(graph_path), exist_ok=True)
-    graph.save_to_file(graph_path)
+    graph.save(graph_path)
 
     # Step 3: predict Orric tensions
     orric_output_path = os.path.join(root_dir, "orric_map_auto", f"cycle_{cycle}.json")
